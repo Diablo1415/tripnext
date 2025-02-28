@@ -11,7 +11,6 @@
     <style>
       .pac-container {
         z-index: 1051 !important;
-        
       }
     </style>
   </head>
@@ -19,30 +18,6 @@
     class="bg-cover bg-center min-h-screen flex flex-col items-center justify-center text-white relative"
     style="background-image: url('img1.jpg')"
   >
-        <!-- Header -->
-    <header>
-        <div class="logo">Tripnext</div>
-        <nav>
-            <ul>
-                <li><a href="#">Flights</a></li>
-                <li><a href="#">Hotels</a></li>
-                <li><a href="#">Car Rentals</a></li>
-                <li><a href="#">Sign In</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>THE ADVENTURE AWAITS</h1>
-        <p>Search and compare millions of flights with ease.</p>
-        <div class="search-box">
-            <input type="text" placeholder="From">
-            <input type="text" placeholder="To">
-            <input type="date">
-            <button>Search</button>
-        </div>
-    </section>
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
     <!-- Show Logged-in User -->
@@ -100,7 +75,7 @@
 
           <!-- Date Range Picker -->
           <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2">Travel Dates</label>
+            <label class="block text-gray-700 text-sm font-bold mb-2">Duration</label>
             <input
               type="text"
               id="dateRange"
@@ -129,34 +104,6 @@
         </div>
       </div>
       
-      <!-- Featured Destinations Section -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-        <div class="bg-white bg-opacity-90 rounded-lg overflow-hidden shadow-lg">
-          <div class="h-40 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/400x250?text=Paris')"></div>
-          <div class="p-4 text-black">
-            <h3 class="font-bold text-xl mb-2">Paris</h3>
-            <p class="text-gray-700">Experience the city of love and lights.</p>
-          </div>
-        </div>
-        
-        <div class="bg-white bg-opacity-90 rounded-lg overflow-hidden shadow-lg">
-          <div class="h-40 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/400x250?text=Tokyo')"></div>
-          <div class="p-4 text-black">
-            <h3 class="font-bold text-xl mb-2">Tokyo</h3>
-            <p class="text-gray-700">Discover the perfect blend of tradition and modernity.</p>
-          </div>
-        </div>
-        
-        <div class="bg-white bg-opacity-90 rounded-lg overflow-hidden shadow-lg">
-          <div class="h-40 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/400x250?text=New+York')"></div>
-          <div class="p-4 text-black">
-            <h3 class="font-bold text-xl mb-2">New York</h3>
-            <p class="text-gray-700">Explore the vibrant city that never sleeps.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script type="module">
       // Import Firebase Modules
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -174,7 +121,7 @@
       let index = 0;
 
       function changeBackground() {
-      document.body.style.backgroundImage = `url('${images[index]}')`;
+      document.body.style.backgroundImage = url('${images[index]}');
       document.body.style.backgroundSize = "cover"; // Ensure background covers the screen
       document.body.style.backgroundPosition = "center"; // Keep it centered
       document.body.style.transition = "background-image 1s ease-in-out"; // Smooth transition
@@ -208,7 +155,7 @@ setInterval(changeBackground, 3700);
           // User is signed in, show email
           document.getElementById(
             "greeting"
-          ).innerText = `Welcome, ${user.email}`;
+          ).innerText = Welcome, ${user.email};
         } else {
           // No user is signed in, redirect to login page
           window.location.href = "index.html";
@@ -240,6 +187,11 @@ setInterval(changeBackground, 3700);
         
         // Setup search button
         document.getElementById('searchBtn').addEventListener('click', searchTrips);
+        
+        // Setup explore button
+        document.getElementById('exploreBtn').addEventListener('click', function() {
+          window.location.href = "dashboard.html";
+        });
         
         // Setup geolocation detection
         document.getElementById('detectLocationBtn').addEventListener('click', detectCurrentLocation);
@@ -350,11 +302,13 @@ setInterval(changeBackground, 3700);
           return;
         }
         
-        // In a real app, you would submit this data to your backend or navigate to results page
-        alert(`Searching for trips:\nFrom: ${source}\nTo: ${destination}\nDates: ${dates}`);
+        // Store search parameters in localStorage for the dashboard to access
+        localStorage.setItem('tripSource', source);
+        localStorage.setItem('tripDestination', destination);
+        localStorage.setItem('tripDates', dates);
         
-        // You can redirect to a results page or handle the search as needed
-        // window.location.href = `results.html?from=${encodeURIComponent(source)}&to=${encodeURIComponent(destination)}&dates=${encodeURIComponent(dates)}`;
+        // Redirect to dashboard page
+        window.location.href = "dashboard.html";
       }
     </script>
   </body>
